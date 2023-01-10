@@ -4,15 +4,19 @@ import io.jonathanlee.clipboardapijava.model.ApplicationUser;
 import io.jonathanlee.clipboardapijava.model.Token;
 import io.jonathanlee.clipboardapijava.repository.ApplicationUserRepository;
 import io.jonathanlee.clipboardapijava.service.ApplicationUserService;
-import java.util.Optional;
+import io.jonathanlee.clipboardapijava.service.TokenService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ApplicationUserServiceImpl implements ApplicationUserService {
 
   private final ApplicationUserRepository applicationUserRepository;
+
+  private final TokenService tokenService;
 
   @Override
   public ApplicationUser persistApplicationUser(final ApplicationUser applicationUser) {
@@ -36,26 +40,22 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
   }
 
   @Override
-  public ApplicationUser deleteDisabledApplicationUserByEmail(final String email) {
+  public void deleteDisabledApplicationUserByEmail(final String email) {
     final ApplicationUser applicationUserToDelete =
         this.applicationUserRepository.findByEmail(email);
     if (applicationUserToDelete != null && !applicationUserToDelete.isEnabled()) {
-      this.applicationUserRepository.deleteById(applicationUserToDelete.getObjectId());
+      log.info("Deleting associated tokens and disabled user with email: {}", email);
+      this.tokenService.deleteToken(applicationUserToDelete.getRegistrationVerificationToken());
+      this.tokenService.deleteToken(applicationUserToDelete.getPasswordResetToken());
+      this.applicationUserRepository.delete(applicationUserToDelete);
     }
 
-    return applicationUserToDelete;
   }
 
-
   @Override
-  public ApplicationUser deleteApplicationUser(ApplicationUser applicationUser) {
-    final Optional<ApplicationUser> applicationUserToDelete = this.applicationUserRepository.findById(
-        applicationUser.getObjectId());
-    if (applicationUserToDelete.isPresent()) {
+  public void deleteApplicationUser(final ApplicationUser applicationUser) {
+    if (applicationUser != null) {
       this.applicationUserRepository.delete(applicationUser);
-      return applicationUser;
-    } else {
-      return null;
     }
   }
 

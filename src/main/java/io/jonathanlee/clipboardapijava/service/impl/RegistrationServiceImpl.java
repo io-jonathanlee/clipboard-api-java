@@ -2,6 +2,7 @@ package io.jonathanlee.clipboardapijava.service.impl;
 
 import io.jonathanlee.clipboardapijava.dto.RegistrationDto;
 import io.jonathanlee.clipboardapijava.dto.RegistrationStatusDto;
+import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.enums.RegistrationStatus;
 import io.jonathanlee.clipboardapijava.model.ApplicationUser;
 import io.jonathanlee.clipboardapijava.model.Token;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +35,13 @@ public class RegistrationServiceImpl implements RegistrationService {
   private final MailService mailService;
 
   @Override
-  public RegistrationStatusDto registerNewUser(final RegistrationDto registrationDto) {
+  public StatusDataContainer<RegistrationStatusDto> registerNewUser(
+      final RegistrationDto registrationDto) {
     if (!registrationDto.getPassword().equals(registrationDto.getConfirmPassword())) {
-      return new RegistrationStatusDto(RegistrationStatus.PASSWORDS_DO_NOT_MATCH);
+      return new StatusDataContainer<>(
+          HttpStatus.BAD_REQUEST,
+          new RegistrationStatusDto(RegistrationStatus.PASSWORDS_DO_NOT_MATCH)
+      );
     }
 
     final ApplicationUser newApplicationUser = new ApplicationUser(
@@ -57,14 +63,21 @@ public class RegistrationServiceImpl implements RegistrationService {
     this.mailService.sendRegistrationVerificationEmail(
         savedApplicationUser.getEmail(),
         newApplicationUser.getRegistrationVerificationToken().getValue());
-    return new RegistrationStatusDto(RegistrationStatus.AWAITING_EMAIL_VERIFICATION);
+    log.info("Awaiting e-mail verification for user with e-mail: {}",
+        savedApplicationUser.getEmail());
+    return new StatusDataContainer<>(
+        HttpStatus.OK,
+        new RegistrationStatusDto(RegistrationStatus.AWAITING_EMAIL_VERIFICATION)
+    );
   }
 
   @Override
-  public RegistrationStatusDto confirmNewUserRegistration(final String tokenValue) {
+  public StatusDataContainer<RegistrationStatusDto> confirmNewUserRegistration(
+      final String tokenValue) {
     final Token registrationVerificationToken = this.tokenService.findByTokenValue(tokenValue);
     if (registrationVerificationToken == null) {
-      return new RegistrationStatusDto(RegistrationStatus.INVALID_TOKEN);
+      return new StatusDataContainer<>(HttpStatus.BAD_REQUEST,
+          new RegistrationStatusDto(RegistrationStatus.INVALID_TOKEN));
     }
 
     if (!registrationVerificationToken.getExpiryDate().isBefore(Instant.now())) {
@@ -74,13 +87,26 @@ public class RegistrationServiceImpl implements RegistrationService {
           applicationUserToEnable);
       this.tokenService.expireToken(registrationVerificationToken);
       if (updatedUser.isEnabled()) {
-        return new RegistrationStatusDto(RegistrationStatus.SUCCESS);
+        log.info("Successfully confirmed registration for user with e-mail: {}",
+            updatedUser.getEmail());
+        return new StatusDataContainer<>(
+            HttpStatus.OK,
+            new RegistrationStatusDto(RegistrationStatus.SUCCESS)
+        );
       }
     } else {
-      return new RegistrationStatusDto(RegistrationStatus.EMAIL_VERIFICATION_EXPIRED);
+      return new StatusDataContainer<>(
+          HttpStatus.BAD_REQUEST,
+          new RegistrationStatusDto(RegistrationStatus.EMAIL_VERIFICATION_EXPIRED)
+      );
     }
 
-    return new RegistrationStatusDto(RegistrationStatus.FAILURE);
+    log.error("Internal server error when confirm registration using token value: {}",
+        tokenValue);
+    return new StatusDataContainer<>(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        new RegistrationStatusDto(RegistrationStatus.FAILURE)
+    );
   }
 
 }

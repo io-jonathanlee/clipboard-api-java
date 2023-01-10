@@ -12,4 +12,6 @@ public interface TokenService {
 
   void expireToken(final Token token);
 
+  void deleteToken(final Token token);
+
 }

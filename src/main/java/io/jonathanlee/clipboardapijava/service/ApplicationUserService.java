@@ -14,8 +14,8 @@ public interface ApplicationUserService {
 
   ApplicationUser enableUser(final ApplicationUser applicationUser);
 
-  ApplicationUser deleteDisabledApplicationUserByEmail(final String email);
+  void deleteDisabledApplicationUserByEmail(final String email);
 
-  ApplicationUser deleteApplicationUser(final ApplicationUser applicationUser);
+  void deleteApplicationUser(final ApplicationUser applicationUser);
 
 }

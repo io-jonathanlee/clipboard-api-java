@@ -54,5 +54,11 @@ public class TokenServiceImpl implements TokenService {
     this.tokenRepository.save(token);
   }
 
-
+  @Override
+  public void deleteToken(final Token token) {
+    if (token != null) {
+      this.tokenRepository.delete(token);
+    }
+  }
+  
 }

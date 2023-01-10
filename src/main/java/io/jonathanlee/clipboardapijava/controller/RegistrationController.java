@@ -2,14 +2,19 @@ package io.jonathanlee.clipboardapijava.controller;
 
 import io.jonathanlee.clipboardapijava.dto.RegistrationDto;
 import io.jonathanlee.clipboardapijava.dto.RegistrationStatusDto;
+import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.service.RegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -25,20 +30,12 @@ public class RegistrationController {
   )
   ResponseEntity<Object> registerNewUser(
       @Valid @RequestBody final RegistrationDto registrationDto) {
-    final RegistrationStatusDto registrationStatusDto = this.registrationService.registerNewUser(
-        registrationDto);
+    final StatusDataContainer<RegistrationStatusDto> statusDataContainer =
+        this.registrationService.registerNewUser(registrationDto);
 
-    switch (registrationStatusDto.getRegistrationStatus()) {
-      case AWAITING_EMAIL_VERIFICATION -> {
-        return ResponseEntity.status(HttpStatus.OK).body(registrationStatusDto);
-      }
-      case PASSWORDS_DO_NOT_MATCH -> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(registrationStatusDto);
-      }
-      default -> {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(registrationStatusDto);
-      }
-    }
+    return ResponseEntity
+        .status(statusDataContainer.getHttpStatus())
+        .body(statusDataContainer.getData());
   }
 
   @GetMapping(
@@ -47,20 +44,12 @@ public class RegistrationController {
   )
   ResponseEntity<RegistrationStatusDto> confirmNewUserRegistration(
       @PathVariable final String tokenValue) {
-    final RegistrationStatusDto
-        registrationStatusDto = this.registrationService.confirmNewUserRegistration(tokenValue);
+    final StatusDataContainer<RegistrationStatusDto> statusDataContainer =
+        this.registrationService.confirmNewUserRegistration(tokenValue);
 
-    switch (registrationStatusDto.getRegistrationStatus()) {
-      case SUCCESS -> {
-        return ResponseEntity.status(HttpStatus.OK).body(registrationStatusDto);
-      }
-      case INVALID_TOKEN, EMAIL_VERIFICATION_EXPIRED -> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(registrationStatusDto);
-      }
-      default -> {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(registrationStatusDto);
-      }
-    }
+    return ResponseEntity
+        .status(statusDataContainer.getHttpStatus())
+        .body(statusDataContainer.getData());
   }
 
 }
