@@ -1,5 +1,6 @@
 package io.jonathanlee.clipboardapijava.helper;
 
+import io.jonathanlee.clipboardapijava.model.users.ApplicationUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AuthenticationHelper {
@@ -9,7 +10,8 @@ public class AuthenticationHelper {
   }
 
   public static String getCurrentUsername() {
-    return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return ((ApplicationUser) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal()).getUsername();
   }
 
 }

@@ -17,9 +17,15 @@ public class SecurityConfig {
     return http
         .authorizeHttpRequests(auth -> {
           auth.requestMatchers("/register").permitAll();
+          auth.requestMatchers("/login").permitAll();
+          auth.requestMatchers("/login-status/failure").permitAll();
           auth.requestMatchers("/register/confirm/**").permitAll();
           auth.anyRequest().authenticated();
         }).csrf().disable()
+        .formLogin()
+        .successForwardUrl("/login-status/success")
+        .failureUrl("/login-status/failure")
+        .and()
         .build();
   }
 

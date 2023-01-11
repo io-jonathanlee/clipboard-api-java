@@ -1,6 +1,6 @@
 package io.jonathanlee.clipboardapijava.dto;
 
-import io.jonathanlee.clipboardapijava.enums.RegistrationStatus;
+import io.jonathanlee.clipboardapijava.enums.users.RegistrationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class RegistrationStatusDto {
 
-    private RegistrationStatus registrationStatus;
+  private RegistrationStatus registrationStatus;
 
 }
