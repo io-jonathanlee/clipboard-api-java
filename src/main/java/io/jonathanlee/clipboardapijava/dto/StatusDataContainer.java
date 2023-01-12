@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 public class StatusDataContainer<T> {
 
   HttpStatus httpStatus;
-
   T data;
 
 }

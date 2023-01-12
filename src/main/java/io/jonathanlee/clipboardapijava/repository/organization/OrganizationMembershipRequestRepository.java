@@ -10,4 +10,7 @@ public interface OrganizationMembershipRequestRepository extends
 
   Optional<OrganizationMembershipRequest> findById(final String organizationMembershipRequestId);
 
+  Optional<OrganizationMembershipRequest> findByOrganizationIdAndRequestingUserEmail(
+      final String organizationId, final String requestingUserEmail);
+
 }

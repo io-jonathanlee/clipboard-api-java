@@ -42,6 +42,10 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test)
 }
 
+tasks.bootBuildImage {
+    setProperty("imageName", "jonathanleedev/clipboard-api-java")
+}
+
 sonar {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")

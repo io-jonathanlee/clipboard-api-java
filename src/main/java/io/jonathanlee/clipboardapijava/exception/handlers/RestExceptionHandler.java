@@ -42,7 +42,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(BadRequestException.class)
   protected ResponseEntity<Object> handleBadRequest(
       RuntimeException exception, WebRequest request) {
-    return handleExceptionInternal(exception, new ErrorDto(exception.getMessage()),
+    final BadRequestException badRequestException = (BadRequestException) exception;
+    ValidationErrorsContainerDto validationErrorsContainerDto = null;
+    if (badRequestException.getField() != null) {
+      validationErrorsContainerDto =
+          new ValidationErrorsContainerDto(
+              List.of(new ValidationErrorDto(badRequestException.getField(),
+                  badRequestException.getMessage()))
+          );
+    }
+    return handleExceptionInternal(exception, (validationErrorsContainerDto == null) ?
+            new ErrorDto(badRequestException.getMessage()) :
+            validationErrorsContainerDto,
         new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
   }
 

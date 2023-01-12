@@ -1,8 +1,10 @@
 package io.jonathanlee.clipboardapijava.dto.response.organization;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class OrganizationMembershipRequestDto {
 
   private String id;

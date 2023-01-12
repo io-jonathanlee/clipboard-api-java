@@ -14,4 +14,7 @@ public interface OrganizationService {
       final String requestingUserEmail, final String organizationId
   );
 
+  StatusDataContainer<OrganizationDto> addOrganizationMember(
+      final String requestingUserEmail, final String organizationId, final String memberEmailToAdd);
+
 }
