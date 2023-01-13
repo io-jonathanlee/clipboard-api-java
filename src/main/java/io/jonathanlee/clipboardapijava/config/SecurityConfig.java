@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,17 +16,11 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
     return http
-        .authorizeHttpRequests(auth -> {
-          auth.requestMatchers("/register").permitAll();
-          auth.requestMatchers("/login").permitAll();
-          auth.requestMatchers("/login-status/failure").permitAll();
-          auth.requestMatchers("/register/confirm/**").permitAll();
-          auth.anyRequest().authenticated();
-        }).csrf().disable()
-        .formLogin()
-        .successForwardUrl("/login-status/success")
-        .failureUrl("/login-status/failure")
+        .authorizeHttpRequests()
+        .anyRequest()
+        .authenticated()
         .and()
+        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
         .build();
   }
 

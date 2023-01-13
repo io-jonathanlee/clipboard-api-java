@@ -19,6 +19,12 @@ import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of organization membership request service. Used to manage requests to join
+ * organizations etc.
+ *
+ * @author jonathanlee <jonathan.lee.devel@gmail.com>
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -51,11 +57,11 @@ public class OrganizationMembershipRequestServiceImpl implements
               OrganizationMembershipStatus.FAILURE
           ));
     }
-    log.info("Organization membership request approved with ID: {}",
-        organizationMembershipRequest.getId());
     organizationMembershipRequest.setApproved(true);
     organizationMembershipRequest.setApprovingAdministratorEmail(requestingUserEmail);
     this.organizationMembershipRequestRepository.save(organizationMembershipRequest);
+    log.info("Organization membership request approved with ID: {}",
+        organizationMembershipRequest.getId());
     return new StatusDataContainer<>(HttpStatus.OK, new OrganizationMembershipStatusDto(
         OrganizationMembershipStatus.SUCCESS
     ));
