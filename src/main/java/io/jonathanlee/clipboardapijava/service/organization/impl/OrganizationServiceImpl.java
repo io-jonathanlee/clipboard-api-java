@@ -8,6 +8,7 @@ import io.jonathanlee.clipboardapijava.model.organization.Organization;
 import io.jonathanlee.clipboardapijava.repository.organization.OrganizationRepository;
 import io.jonathanlee.clipboardapijava.service.RandomService;
 import io.jonathanlee.clipboardapijava.service.organization.OrganizationService;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -95,6 +96,20 @@ public class OrganizationServiceImpl implements OrganizationService {
     final Organization savedOrganization = this.organizationRepository.save(organization);
     return new StatusDataContainer<>(HttpStatus.OK,
         organizationToOrganizationDto(savedOrganization));
+  }
+
+  @Override
+  public StatusDataContainer<Collection<OrganizationDto>> getOrganizationsWhereMember(
+      final String requestingUserEmail) {
+    return new StatusDataContainer<>(HttpStatus.OK, this
+        .organizationRepository
+        .findOrganizationByMemberEmailsContaining(requestingUserEmail)
+        .stream().map(organization -> new OrganizationDto(
+            organization.getId(),
+            organization.getName(),
+            organization.getMemberEmails(),
+            organization.getAdministratorEmails()
+        )).toList());
   }
 
 }

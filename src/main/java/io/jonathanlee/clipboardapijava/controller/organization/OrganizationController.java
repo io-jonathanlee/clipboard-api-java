@@ -6,6 +6,7 @@ import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationDto
 import io.jonathanlee.clipboardapijava.helper.AuthenticationHelper;
 import io.jonathanlee.clipboardapijava.service.organization.OrganizationService;
 import jakarta.validation.Valid;
+import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,20 @@ public class OrganizationController {
   ) {
     final StatusDataContainer<OrganizationDto> statusDataContainer = this.organizationService
         .createOrganization(AuthenticationHelper.getCurrentUsername(), organizationRequestDto);
+    return ResponseEntity
+        .status(statusDataContainer.getHttpStatus())
+        .body(statusDataContainer.getData());
+  }
+
+  @GetMapping(
+      value = "/where-member",
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<Collection<OrganizationDto>> getWhereMember() {
+    final StatusDataContainer<Collection<OrganizationDto>> statusDataContainer =
+        this.organizationService.getOrganizationsWhereMember(
+            AuthenticationHelper.getCurrentUsername());
+
     return ResponseEntity
         .status(statusDataContainer.getHttpStatus())
         .body(statusDataContainer.getData());

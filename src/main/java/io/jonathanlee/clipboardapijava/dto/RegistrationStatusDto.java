@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class RegistrationStatusDto {
 
-  private RegistrationStatus registrationStatus;
+  private RegistrationStatus status;
 
 }

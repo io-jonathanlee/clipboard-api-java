@@ -1,8 +1,10 @@
 package io.jonathanlee.clipboardapijava.config;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -12,11 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
 
+  @Value("${clipboard.environment.frontEndHost}")
+  private String frontEndHost;
+
   @Bean
   public CorsFilter corsFilter() {
     final CorsConfiguration corsConfiguration = new CorsConfiguration();
     corsConfiguration.setAllowCredentials(true);
-    corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
+    corsConfiguration.setAllowedOrigins(List.of(frontEndHost));
     corsConfiguration.setAllowedHeaders(List.of(
         "Origin",
         "Access-Control-Allow-Origin",
@@ -43,12 +48,12 @@ public class CorsConfig {
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     String[] allowedDomains = new String[]{
-        "http://localhost:4200"
+        frontEndHost
     };
 
     return new WebMvcConfigurer() {
       @Override
-      public void addCorsMappings(CorsRegistry registry) {
+      public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins(allowedDomains);
       }
     };

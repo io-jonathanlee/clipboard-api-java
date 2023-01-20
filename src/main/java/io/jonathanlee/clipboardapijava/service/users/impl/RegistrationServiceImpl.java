@@ -44,6 +44,8 @@ public class RegistrationServiceImpl implements RegistrationService {
       );
     }
 
+    this.applicationUserService.deleteDisabledApplicationUserByEmail(registrationDto.getEmail());
+
     if (this.applicationUserService.doesApplicationUserExist(registrationDto.getEmail())) {
       return new StatusDataContainer<>(
           HttpStatus.CONFLICT,
@@ -62,8 +64,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.tokenService.generateAndPersistNewValidToken(),
         this.tokenService.generateAndPersistNewExpiredToken()
     );
-
-    this.applicationUserService.deleteDisabledApplicationUserByEmail(registrationDto.getEmail());
 
     final ApplicationUser savedApplicationUser = this.applicationUserService.persistApplicationUser(
         newApplicationUser);

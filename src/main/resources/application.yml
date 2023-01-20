@@ -1,22 +1,9 @@
+clipboard:
+  environment:
+    frontEndHost: ${FRONT_END_HOST}
 server:
   port: ${SERVER_PORT}
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8081/auth/realms/clipboard
-  #      client:
-  #        registration:
-  #          keycloak:
-  #            client-id: clipboard_client
-  #            authorization-grant-type: authorization_code
-  #            scope:
-  #              - openid
-  #        provider:
-  #          keycloak:
-  #            issuer-uri: http://localhost:8081/auth/realms/clipboard
-  #            user-name-attribute: preferred_username
   data:
     mongodb:
       uri: ${DATABASE_URI}

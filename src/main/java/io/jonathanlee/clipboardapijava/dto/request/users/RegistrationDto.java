@@ -1,6 +1,7 @@
 package io.jonathanlee.clipboardapijava.dto.request.users;
 
 import io.jonathanlee.clipboardapijava.dto.Constraints;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,5 +29,8 @@ public class RegistrationDto {
   @NotNull
   @Size(min = Constraints.MIN_PASSWORD_LENGTH, max = Constraints.MAX_PASSWORD_LENGTH)
   private String confirmPassword;
+
+  @AssertTrue
+  private boolean acceptTermsAndConditions;
 
 }

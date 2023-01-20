@@ -10,4 +10,6 @@ public class LoginStatusDto {
 
   private LoginStatus loginStatus;
 
+  private String accessToken;
+
 }

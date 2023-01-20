@@ -2,6 +2,7 @@ package io.jonathanlee.clipboardapijava.controller.users;
 
 import io.jonathanlee.clipboardapijava.dto.RegistrationStatusDto;
 import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
+import io.jonathanlee.clipboardapijava.dto.request.users.RegistrationConfirmationDto;
 import io.jonathanlee.clipboardapijava.dto.request.users.RegistrationDto;
 import io.jonathanlee.clipboardapijava.service.users.RegistrationService;
 import jakarta.validation.Valid;
@@ -9,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,14 +37,17 @@ public class RegistrationController {
         .body(statusDataContainer.getData());
   }
 
-  @GetMapping(
+  @PostMapping(
+      value = "/confirm",
       produces = MediaType.APPLICATION_JSON_VALUE,
-      value = "/confirm/{tokenValue}"
+      consumes = MediaType.APPLICATION_JSON_VALUE
   )
   ResponseEntity<RegistrationStatusDto> confirmNewUserRegistration(
-      @PathVariable final String tokenValue) {
+      @Valid @RequestBody final RegistrationConfirmationDto registrationConfirmationDto) {
+    log.info("register/confirm with token value: {}", registrationConfirmationDto.getTokenValue());
     final StatusDataContainer<RegistrationStatusDto> statusDataContainer =
-        this.registrationService.confirmNewUserRegistration(tokenValue);
+        this.registrationService.confirmNewUserRegistration(
+            registrationConfirmationDto.getTokenValue());
 
     return ResponseEntity
         .status(statusDataContainer.getHttpStatus())
