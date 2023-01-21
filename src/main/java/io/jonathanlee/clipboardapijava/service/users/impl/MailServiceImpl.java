@@ -58,6 +58,7 @@ public class MailServiceImpl implements MailService {
 
     try {
       this.javaMailSender.send(simpleMailMessage);
+      log.info("Password reset verification e-mail sent to: {}", targetEmail);
       return CompletableFuture.completedFuture(simpleMailMessage);
     } catch (MailException mailException) {
       log.error("Password reset e-mail could not be sent: {}", mailException.getMessage());
