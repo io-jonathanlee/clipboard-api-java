@@ -18,6 +18,6 @@ public interface ApplicationUserService {
 
   void deleteDisabledApplicationUserByEmail(final String email);
 
-  void deleteApplicationUser(final ApplicationUser applicationUser);
+  ApplicationUser getApplicationUserByEmail(final String email);
 
 }

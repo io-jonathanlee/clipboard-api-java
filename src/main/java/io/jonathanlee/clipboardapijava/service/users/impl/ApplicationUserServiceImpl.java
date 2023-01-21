@@ -59,10 +59,8 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
   }
 
   @Override
-  public void deleteApplicationUser(final ApplicationUser applicationUser) {
-    if (applicationUser != null) {
-      this.applicationUserRepository.delete(applicationUser);
-    }
+  public ApplicationUser getApplicationUserByEmail(final String email) {
+    return this.applicationUserRepository.findByEmail(email);
   }
 
 }

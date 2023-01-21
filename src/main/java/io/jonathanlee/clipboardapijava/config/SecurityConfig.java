@@ -33,6 +33,7 @@ public class SecurityConfig {
           auth.requestMatchers("/register").permitAll();
           auth.requestMatchers("/auth/login").permitAll();
           auth.requestMatchers("/register/confirm/**").permitAll();
+          auth.requestMatchers("/password/reset/**").permitAll();
           auth.anyRequest().authenticated();
         }).csrf().disable()
         .sessionManagement()
