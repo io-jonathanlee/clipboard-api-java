@@ -112,4 +112,19 @@ public class OrganizationServiceImpl implements OrganizationService {
         )).toList());
   }
 
+  @Override
+  public StatusDataContainer<Collection<OrganizationDto>> getOrganizationsWhereInvolved(
+      String requestingUserEmail) {
+    return new StatusDataContainer<>(HttpStatus.OK,
+        this.organizationRepository
+            .findOrganizationByAdministratorEmailsContainingOrMemberEmailsContaining(
+                List.of(requestingUserEmail), List.of(requestingUserEmail))
+            .stream().map(organization -> new OrganizationDto(
+                organization.getId(),
+                organization.getName(),
+                organization.getMemberEmails(),
+                organization.getAdministratorEmails()
+            )).toList());
+  }
+
 }

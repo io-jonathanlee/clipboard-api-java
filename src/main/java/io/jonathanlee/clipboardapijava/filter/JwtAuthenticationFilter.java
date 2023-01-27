@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (request.getRequestURI().startsWith("/auth/login") ||
         request.getRequestURI().startsWith("/register") ||
         request.getRequestURI().startsWith("/password/reset")) {
-      log.info("Request with URI: {} bypasses JWT authentication filter", request.getRequestURI());
+      log.debug("Request with URI: {} bypasses JWT authentication filter", request.getRequestURI());
       filterChain.doFilter(request, response);
       return;
     }
@@ -58,6 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         );
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        log.debug("Successful JWT authentication filtering at URI: {} for user with e-mail: {}",
+            request.getRequestURI(), username);
       }
     }
     filterChain.doFilter(request, response);

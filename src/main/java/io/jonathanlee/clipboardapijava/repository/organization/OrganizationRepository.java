@@ -12,4 +12,7 @@ public interface OrganizationRepository extends MongoRepository<Organization, Ob
 
   Collection<Organization> findOrganizationByMemberEmailsContaining(final String memberEmail);
 
+  Collection<Organization> findOrganizationByAdministratorEmailsContainingOrMemberEmailsContaining(
+      Collection<String> administratorEmails, Collection<String> memberEmails);
+
 }

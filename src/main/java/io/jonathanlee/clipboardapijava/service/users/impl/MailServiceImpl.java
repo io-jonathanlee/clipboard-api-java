@@ -53,7 +53,7 @@ public class MailServiceImpl implements MailService {
     simpleMailMessage.setSubject("Clipboard Password Reset");
     simpleMailMessage.setText(
         String.format("Please click the following link to reset your password: %s",
-            String.format("%s/password/reset/%s", frontEndHost, tokenValue))
+            String.format("%s/password/reset/confirm/%s", frontEndHost, tokenValue))
     );
 
     try {

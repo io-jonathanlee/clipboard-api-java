@@ -21,4 +21,7 @@ public interface OrganizationService {
   StatusDataContainer<Collection<OrganizationDto>> getOrganizationsWhereMember(
       final String requestingUserEmail);
 
+  StatusDataContainer<Collection<OrganizationDto>> getOrganizationsWhereInvolved(
+      final String requestingUserEmail);
+
 }

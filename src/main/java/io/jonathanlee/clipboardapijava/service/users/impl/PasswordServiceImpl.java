@@ -78,6 +78,7 @@ public class PasswordServiceImpl implements PasswordService {
     applicationUser.setPassword(this.passwordEncoder.encode(
         passwordResetConfirmRequestDto.getPassword()));
     this.applicationUserService.persistApplicationUser(applicationUser);
+    this.tokenService.expireToken(passwordResetToken);
     return new StatusDataContainer<>(HttpStatus.OK,
         new PasswordResetStatusDto(PasswordResetStatus.SUCCESS));
   }

@@ -65,4 +65,19 @@ public class OrganizationController {
         .body(statusDataContainer.getData());
   }
 
+  @GetMapping(
+      value = "/where-involved",
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<Collection<OrganizationDto>> getWhereInvolved() {
+    final StatusDataContainer<Collection<OrganizationDto>> statusDataContainer =
+        this.organizationService.getOrganizationsWhereInvolved(
+            AuthenticationHelper.getCurrentUsername()
+        );
+
+    return ResponseEntity
+        .status(statusDataContainer.getHttpStatus())
+        .body(statusDataContainer.getData());
+  }
+
 }
