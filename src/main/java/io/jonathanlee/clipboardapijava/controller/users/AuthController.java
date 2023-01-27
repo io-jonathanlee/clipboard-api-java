@@ -44,7 +44,8 @@ public class AuthController {
         loginRequestDto.getUsername());
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(new LoginStatusDto(LoginStatus.SUCCESS, this.jwtService.generateJwt(userDetails)));
+        .body(new LoginStatusDto(LoginStatus.SUCCESS, loginRequestDto.getUsername(),
+            this.jwtService.generateJwt(userDetails)));
   }
 
 }
