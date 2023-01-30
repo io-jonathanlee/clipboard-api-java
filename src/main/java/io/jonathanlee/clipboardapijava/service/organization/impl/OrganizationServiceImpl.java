@@ -55,6 +55,29 @@ public class OrganizationServiceImpl implements OrganizationService {
   }
 
   @Override
+  public boolean isUserMemberOfOrganization(final String memberEmail, final String organizationId) {
+    final Optional<Organization> organizationOptional = this.organizationRepository.findById(
+        organizationId);
+    if (organizationOptional.isEmpty()) {
+      return false;
+    }
+    final Organization organization = organizationOptional.get();
+    return organization.getMemberEmails().contains(memberEmail);
+  }
+
+  @Override
+  public boolean isUserAdministratorOfOrganization(final String administratorEmail,
+      final String organizationId) {
+    final Optional<Organization> organizationOptional = this.organizationRepository.findById(
+        organizationId);
+    if (organizationOptional.isEmpty()) {
+      return false;
+    }
+    final Organization organization = organizationOptional.get();
+    return organization.getAdministratorEmails().contains(administratorEmail);
+  }
+
+  @Override
   public StatusDataContainer<OrganizationDto> createOrganization(final String requestingUserEmail,
       final OrganizationRequestDto organizationRequestDto) {
     final Organization organization = new Organization(

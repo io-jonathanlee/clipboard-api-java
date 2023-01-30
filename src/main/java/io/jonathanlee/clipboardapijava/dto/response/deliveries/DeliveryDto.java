@@ -9,6 +9,8 @@ public class DeliveryDto {
 
   private String id;
 
+  private String organizationId;
+
   private String title;
 
   private String details;

@@ -15,6 +15,11 @@ public interface OrganizationService {
       final String requestingUserEmail, final String organizationId
   );
 
+  boolean isUserMemberOfOrganization(final String memberEmail, final String organizationId);
+
+  boolean isUserAdministratorOfOrganization(final String administratorEmail,
+      final String organizationId);
+
   StatusDataContainer<OrganizationDto> addOrganizationMember(
       final String requestingUserEmail, final String organizationId, final String memberEmailToAdd);
 
