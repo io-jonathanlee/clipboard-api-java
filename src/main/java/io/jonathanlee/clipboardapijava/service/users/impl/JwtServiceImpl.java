@@ -11,9 +11,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class JwtServiceImpl implements JwtService {
 
@@ -48,13 +50,17 @@ public class JwtServiceImpl implements JwtService {
   }
 
   public String generateJwt(final Map<String, Object> addedClaims, final UserDetails userDetails) {
+    final Date expiryDate = new Date(
+        System.currentTimeMillis() + (MILLISECONDS_AS_SECOND * EXPIRY_TIME_MINUTES * 60));
+
+    log.info("JWT created at: {} expires at: {}", new Date(System.currentTimeMillis()), expiryDate);
+
     return Jwts
         .builder()
         .setClaims(addedClaims)
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(
-            System.currentTimeMillis() + (MILLISECONDS_AS_SECOND * EXPIRY_TIME_MINUTES * 60)))
+        .setExpiration(expiryDate)
         .signWith(getSigningKey(), SignatureAlgorithm.HS512)
         .compact();
   }
