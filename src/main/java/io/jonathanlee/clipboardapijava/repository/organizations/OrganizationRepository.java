@@ -1,4 +1,4 @@
-package io.jonathanlee.clipboardapijava.repository.organization;
+package io.jonathanlee.clipboardapijava.repository.organizations;
 
 import io.jonathanlee.clipboardapijava.model.organization.Organization;
 import java.util.Collection;

@@ -1,13 +1,13 @@
-package io.jonathanlee.clipboardapijava.service.organization.impl;
+package io.jonathanlee.clipboardapijava.service.organizations.impl;
 
 import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.dto.request.organization.OrganizationRequestDto;
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationDto;
 import io.jonathanlee.clipboardapijava.exception.BadRequestException;
 import io.jonathanlee.clipboardapijava.model.organization.Organization;
-import io.jonathanlee.clipboardapijava.repository.organization.OrganizationRepository;
+import io.jonathanlee.clipboardapijava.repository.organizations.OrganizationRepository;
 import io.jonathanlee.clipboardapijava.service.RandomService;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

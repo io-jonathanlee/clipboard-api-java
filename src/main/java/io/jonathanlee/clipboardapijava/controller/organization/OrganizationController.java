@@ -4,7 +4,7 @@ import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.dto.request.organization.OrganizationRequestDto;
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationDto;
 import io.jonathanlee.clipboardapijava.helper.AuthenticationHelper;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationService;
 import jakarta.validation.Valid;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;

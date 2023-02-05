@@ -1,4 +1,4 @@
-package io.jonathanlee.clipboardapijava.service.organization.impl;
+package io.jonathanlee.clipboardapijava.service.organizations.impl;
 
 import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.dto.request.organization.RemoveOrganizationAdministratorRequestDto;
@@ -6,8 +6,8 @@ import io.jonathanlee.clipboardapijava.dto.request.organization.RemoveOrganizati
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationDto;
 import io.jonathanlee.clipboardapijava.exception.BadRequestException;
 import io.jonathanlee.clipboardapijava.model.organization.Organization;
-import io.jonathanlee.clipboardapijava.repository.organization.OrganizationRepository;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationMembershipService;
+import io.jonathanlee.clipboardapijava.repository.organizations.OrganizationRepository;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationMembershipService;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

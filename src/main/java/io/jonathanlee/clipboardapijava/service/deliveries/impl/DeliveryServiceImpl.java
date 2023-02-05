@@ -7,7 +7,7 @@ import io.jonathanlee.clipboardapijava.model.deliveries.Delivery;
 import io.jonathanlee.clipboardapijava.repository.deliveries.DeliveryRepository;
 import io.jonathanlee.clipboardapijava.service.RandomService;
 import io.jonathanlee.clipboardapijava.service.deliveries.DeliveryService;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationService;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
