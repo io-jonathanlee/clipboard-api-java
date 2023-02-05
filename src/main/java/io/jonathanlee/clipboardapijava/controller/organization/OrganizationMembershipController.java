@@ -5,7 +5,7 @@ import io.jonathanlee.clipboardapijava.dto.request.organization.RemoveOrganizati
 import io.jonathanlee.clipboardapijava.dto.request.organization.RemoveOrganizationMemberRequestDto;
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationDto;
 import io.jonathanlee.clipboardapijava.helper.AuthenticationHelper;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationMembershipService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationMembershipService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

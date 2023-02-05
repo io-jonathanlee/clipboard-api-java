@@ -1,4 +1,4 @@
-package io.jonathanlee.clipboardapijava.service.organization;
+package io.jonathanlee.clipboardapijava.service.organizations;
 
 import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.dto.request.organization.RemoveOrganizationAdministratorRequestDto;

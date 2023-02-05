@@ -4,7 +4,7 @@ import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationMembershipRequestDto;
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationMembershipStatusDto;
 import io.jonathanlee.clipboardapijava.helper.AuthenticationHelper;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationMembershipRequestService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationMembershipRequestService;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package io.jonathanlee.clipboardapijava.service.organization.impl;
+package io.jonathanlee.clipboardapijava.service.organizations.impl;
 
 import io.jonathanlee.clipboardapijava.dto.StatusDataContainer;
 import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationDto;
@@ -7,10 +7,10 @@ import io.jonathanlee.clipboardapijava.dto.response.organization.OrganizationMem
 import io.jonathanlee.clipboardapijava.enums.organization.OrganizationMembershipStatus;
 import io.jonathanlee.clipboardapijava.exception.BadRequestException;
 import io.jonathanlee.clipboardapijava.model.organization.OrganizationMembershipRequest;
-import io.jonathanlee.clipboardapijava.repository.organization.OrganizationMembershipRequestRepository;
+import io.jonathanlee.clipboardapijava.repository.organizations.OrganizationMembershipRequestRepository;
 import io.jonathanlee.clipboardapijava.service.RandomService;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationMembershipRequestService;
-import io.jonathanlee.clipboardapijava.service.organization.OrganizationService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationMembershipRequestService;
+import io.jonathanlee.clipboardapijava.service.organizations.OrganizationService;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
